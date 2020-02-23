@@ -1,5 +1,6 @@
 <template>
-  <div class="bg">
+  <div class="bg" v-bind:style="{ backgroundImage: 'url(/backgrounds/' + images[image] + '.jpg)' }">
+    <img :src="'/backgrounds/' + images[imagePreload] + '.jpg'" class="preload" />
     <div class="layer">
       <div class="countdown">
         <h1>Arma.Events</h1>
@@ -36,20 +37,41 @@ export default class Countdown extends Vue {
   hours = 4;
   minutes = 32;
   seconds = 14;
+
+  images = ["baf", "convoy", "debrief", "para", "prep", "smoke", "nameless", "rhs", "jungle", "heli", "mine", "un"]; 
+  
+  image = Math.floor((Math.random() * this.images.length));
+  imagePreload = this.image + 1;
+
+  created() {
+    this.refreshImage();
+    setInterval(this.refreshImage, 4000);
+  }
+
+  refreshImage() {
+    this.image = this.imagePreload;
+    this.imagePreload += 1;
+    if (this.imagePreload >= this.images.length) {
+      this.imagePreload = 0;
+    }
+  }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import "@/assets/background.scss";
 .bg {
-  /* The image used */
-  @include background-image;
   height: 100vh;
 
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  -webkit-transition: background-image 0.5s ease-in-out;
+  transition: background-image 0.5s ease-in-out;
+
+  .preload {
+    display: none;
+  }
 
   .layer {
     background-color: rgba(0, 0, 0, 0.4);

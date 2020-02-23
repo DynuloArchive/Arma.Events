@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arma-events-public
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arma-events-public
+  template:
+    metadata:
+      labels:
+        app: arma-events-public
+    spec:
+      containers:
+      - name: arma-events-public
+        image: dynulo/arma.events.public:0.1.3
+        resources:
+          requests:
+            memory: "2Mi"
+            cpu: "25m"
+          limits:
+            memory: "10Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: index.html
+            port: 80
+          periodSeconds: 1
+          initialDelaySeconds: 2
+        livenessProbe:
+          httpGet:
+            path: index.html
+            port: 80
+          initialDelaySeconds: 1
+          periodSeconds: 3
