@@ -38,7 +38,11 @@ export default class Countdown extends Vue {
   minutes = 32;
   seconds = 14;
 
-  images = ["baf", "convoy", "debrief", "para", "prep", "smoke", "nameless", "rhs", "jungle", "heli", "mine", "un"]; 
+  images = [
+    "baf", "convoy", "debrief", "para", "prep",
+    "smoke", "nameless", "rhs", "jungle", "heli",
+    "mine", "un", "un_mg", "jurek", "mesia"
+  ]; 
   
   image = Math.floor((Math.random() * this.images.length));
   imagePreload = this.image + 1;
